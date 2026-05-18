@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════
-# ZSH 2026 - Starship + Funciones Enhanced [CORREGIDO]
+# ZSH 2026 - Starship + Funciones Enhanced [KALI]
 # ═══════════════════════════════════════════════════════════
 
 [[ -n "${ZSHRC_LOADED-}" ]] && return
@@ -16,20 +16,20 @@ export XDG_CACHE_HOME="$HOME/.cache"
 # STARSHIP PROMPT
 # ═══════════════════════════════════════════════════════════
 if command -v starship &>/dev/null; then
-    export STARSHIP_CONFIG="$HOME/.config/starship.toml"
+    export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
     type starship_zle-keymap-select >/dev/null 2>&1 || eval "$(starship init zsh)"
 fi
 
 # ═══════════════════════════════════════════════════════════
 # TERMINAL TITLE
 # ═══════════════════════════════════════════════════════════
-echo -en "\e]2;Parrot Terminal\a"
-preexec () { print -Pn "\e]0;$1 - Parrot Terminal\a" }
+echo -en "\e]2;Kali Terminal\a"
+preexec () { print -Pn "\e]0;$1 - Kali Terminal\a" }
 
 # ═══════════════════════════════════════════════════════════
-# PATH Y VARIABLES (Corregido: ~ → $HOME, sin duplicados)
+# PATH Y VARIABLES
 # ═══════════════════════════════════════════════════════════
-export PATH="$HOME/.bin:$HOME/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/opt/go/bin:/opt/kerbrute:/opt/ghidra:$HOME/go/bin:$HOME/bin"
+export PATH="$HOME/.npm-global/bin:$HOME/.bin:$HOME/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/opt/go/bin:/opt/kerbrute:/opt/ghidra:$HOME/go/bin:$HOME/bin:$HOME/.fzf/bin"
 
 export ORACLE_HOME=/usr/lib/oracle/21/client64/
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$ORACLE_HOME/lib"
@@ -69,11 +69,11 @@ function extractPorts() {
         echo "Error: Archivo no encontrado: $1"
         return 1
     fi
-    
+
     local ports=$(grep -oP '\d{1,5}/open' "$1" | awk -F'/' '{print $1}' | sort -u | xargs | tr ' ' ',')
     local ip_addr=$(grep -oP '^Host: .* \(.*\)' "$1" | head -1 | awk '{print $2}')
     local timestamp=$(date +%Y-%m-%d\ %H:%M)
-    
+
     echo ""
     echo "╔════════════════════════════════════════╗"
     echo "║     EXTRACTED NMAP RESULTS             ║"
@@ -82,7 +82,7 @@ function extractPorts() {
     echo "║  🌐 IP:   $ip_addr"
     echo "║  🔌 Puertos: $ports"
     echo "╚════════════════════════════════════════╝"
-    
+
     if command -v xclip &>/dev/null; then
         echo -n "$ports" | xclip -sel clip 2>/dev/null && echo "   ✓ Copiado al portapapeles" || echo "   ⚠ Error al copiar"
     else
@@ -168,16 +168,16 @@ function extract() {
     if [[ -f "$1" ]]; then
         case "$1" in
             *.tar.bz2) tar xjf "$1" ;;
-            *.tar.gz) tar xzf "$1" ;;
-            *.bz2) bunzip2 "$1" ;;
-            *.rar) unrar x "$1" ;;
-            *.gz) gunzip "$1" ;;
-            *.tar) tar xf "$1" ;;
-            *.tbz2) tar xjf "$1" ;;
-            *.tgz) tar xzf "$1" ;;
-            *.zip) unzip "$1" ;;
-            *.7z) 7z x "$1" ;;
-            *.xz) unxz "$1" ;;
+            *.tar.gz)  tar xzf "$1" ;;
+            *.bz2)     bunzip2 "$1" ;;
+            *.rar)     unrar x "$1" ;;
+            *.gz)      gunzip "$1" ;;
+            *.tar)     tar xf "$1" ;;
+            *.tbz2)    tar xjf "$1" ;;
+            *.tgz)     tar xzf "$1" ;;
+            *.zip)     unzip "$1" ;;
+            *.7z)      7z x "$1" ;;
+            *.xz)      unxz "$1" ;;
             *) echo "⚠ Formato no soportado: $1" ;;
         esac
     else
@@ -202,7 +202,7 @@ function cds() { cd "$(zoxide query --list 2>/dev/null | fzf)" 2>/dev/null || tr
 # Información del sistema
 function sysinfo() {
     echo "╔════════════════════════════════════════╗"
-    echo "║     SYSTEM INFO                          ║"
+    echo "║     SYSTEM INFO                        ║"
     echo "╠════════════════════════════════════════╣"
     echo "║  🖥️  Hostname: $(hostname)"
     echo "║  🖧  IP: $(hostname -I 2>/dev/null | awk '{print $1}')"
@@ -241,6 +241,7 @@ if command -v lsd &>/dev/null; then
 fi
 
 # BAT (reemplazo de cat)
+# En Kali bat se llama batcat; el symlink ~/.local/bin/bat lo resuelve
 if command -v bat &>/dev/null; then
     alias cat='bat --theme=Catppuccin\ Mocha'
     alias catnp='bat --paging=never'
@@ -272,7 +273,7 @@ alias dlog='docker logs -f --tail=50'
 alias dex='docker exec -it'
 alias dprune='docker system prune -af'
 
-# KUBERNETES (Corregido: kga único)
+# KUBERNETES
 alias k='kubectl'
 alias kgp='kubectl get pods -A'
 alias kgs='kubectl get svc -A'
@@ -284,8 +285,9 @@ alias klf='kubectl logs -f'
 alias kx='kubectl exec -it'
 
 # SYSTEM
-alias update='paru -Syu'
-alias clean='paru -Scc'
+# En Kali usamos apt en lugar de paru
+alias update='sudo apt update && sudo apt upgrade -y'
+alias clean='sudo apt autoremove -y && sudo apt autoclean'
 alias mem='free -h'
 alias disk='df -h'
 alias topcpu='ps aux --sort=-%cpu | head -10'
@@ -367,21 +369,21 @@ bindkey '^R' fzf-history-widget
 bindkey '^F' fzf-file-widget
 
 # ═══════════════════════════════════════════════════════════
-# ALT+ARROWS (word movement) — cubre todos los terminales
+# ALT+ARROWS (word movement)
 # ═══════════════════════════════════════════════════════════
-bindkey "^[[1;3D" backward-word
-bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
-bindkey "^[^[[D" backward-word
-bindkey "^[^[[C" forward-word
-bindkey "^[^[OD" backward-word
-bindkey "^[^[OC" forward-word
+bindkey "^[^[[D"  backward-word
+bindkey "^[^[[C"  forward-word
+bindkey "^[^[OD"  backward-word
+bindkey "^[^[OC"  forward-word
 
 # ═══════════════════════════════════════════════════════════
 # PLUGINS ZSH
+# Compatible con Arch (/usr/share/zsh/plugins/) y
+# Kali/Debian (/usr/share/zsh-autosuggestions/ etc.)
 # ═══════════════════════════════════════════════════════════
 
 # Autosuggestions
@@ -392,10 +394,16 @@ if [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     ZSH_AUTOSUGGEST_MAX_LENGTH=150
 fi
 
-# Syntax Highlighting
+# Syntax Highlighting — busca en ambas rutas (Arch y Kali/Debian)
 if [[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+elif [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# Aplicar estilos si el plugin cargó
+if (( ${+ZSH_HIGHLIGHT_HIGHLIGHTERS} )) || [[ -n "${ZSH_HIGHLIGHT_VERSION}" ]]; then
+    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
     ZSH_HIGHLIGHT_STYLES[command]='fg=cyan'
     ZSH_HIGHLIGHT_STYLES[alias]='fg=green'
     ZSH_HIGHLIGHT_STYLES[builtin]='fg=blue'
@@ -415,6 +423,3 @@ export XDG_CURRENT_DESKTOP=XFCE
 export XDG_SESSION_TYPE=x11
 export COLORTERM=true
 export TERM=xterm-256color
-
-# PATH adicional para npm global (corregido con comillas)
-export PATH="$HOME/.npm-global/bin:$PATH"
