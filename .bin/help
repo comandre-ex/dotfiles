@@ -1,0 +1,112 @@
+#!/bin/bash
+# help - Comandos útiles del sistema
+# Uso: help [comando]
+
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+case "$1" in
+    ls|lsd)
+        echo -e "${GREEN}═══ LSD (Modern ls) ═══${NC}"
+        echo "  ls        → Ver archivos (iconos)"
+        echo "  ll        → Ver con detalles"
+        echo "  la        → Ver todos (incl. ocultos)"
+        echo "  lt        → Ver como árbol"
+        echo "  ltd       → Ver árbol 3 niveles"
+        ;;
+    shortcuts|atajos)
+        echo -e "${GREEN}═══ ATAJOS DE TECLADO ═══${NC}"
+        echo "  Super + Enter  → Kitty"
+        echo "  Super + r      → Rofi"
+        echo "  Super + h/j/k/l → Vim nav"
+        echo "  Ctrl + r       → Buscar historial"
+        ;;
+    sxhkd)
+        echo -e "${GREEN}═══ SXHKD (BSPWM) ═══${NC}"
+        echo "  super + return → Terminal (Kitty)"
+        echo "  super + r       → Rofi (launcher)"
+        echo "  super + shift + e → Thunar"
+        echo "  super + shift + f → Firefox"
+        echo "  super + shift + c → Caido"
+        echo "  super + shift + o → Obsidian"
+        echo "  super + alt + q  → Salir BSPWM"
+        echo "  super + alt + r  → Reiniciar BSPWM"
+        echo "  super + escape  → Recargar sxhkd"
+        echo "  super + c       → Cerrar ventana"
+        echo "  super + w       → Forzar cierre"
+        echo "  super + h/j/k/l → Mover foco (vim)"
+        echo "  super + shift + h/j/k/l → Intercambiar ventana"
+        echo "  super + 1-9,0   → Cambiar escritorio"
+        echo "  super + f/s     → Fullscreen/Floating"
+        echo "  super + z       → Captura (Flameshot)"
+        ;;
+    extract|ports)
+        echo -e "${GREEN}═══ EXTRACTPORTS ═══${NC}"
+        echo "  Usage: extractPorts <archivo_nmap>"
+        echo "  Extrae IP y puertos de scans nmap"
+        ;;
+    mkt)
+        echo -e "${GREEN}═══ MKT ═══${NC}"
+        echo "  Usage: mkt [nombre]"
+        echo "  Crea estructura: nmap,content,exploits,scripts,report,evidence"
+        ;;
+    sys)
+        echo -e "${GREEN}═══ SYSINFO ═══${NC}"
+        echo "  Muestra: hostname, IP, RAM, disco, uptime"
+        ;;
+    docker)
+        echo -e "${GREEN}═══ DOCKER ═══${NC}"
+        echo "  d        → docker"
+        echo "  dc       → docker compose"
+        echo "  dps      → ver contenedores"
+        echo "  di       → ver imágenes"
+        echo "  dlog     → ver logs"
+        echo "  dex      → exec interactivo"
+        ;;
+    k8s|kube|kubectl)
+        echo -e "${GREEN}═══ KUBERNETES ═══${NC}"
+        echo "  k       → kubectl"
+        echo "  kgp     → get pods"
+        echo "  kgs     → get services"
+        echo "  kgd     → get deployments"
+        echo "  kga     → get all"
+        ;;
+    git)
+        echo -e "${GREEN}═══ GIT ═══${NC}"
+        echo "  g       → git"
+        echo "  gs      → git status"
+        echo "  ga      → git add"
+        echo "  gc      → git commit"
+        echo "  gp      → git push"
+        echo "  gl      → git log"
+        echo "  gco     → git checkout"
+        echo "  gb      → git branch"
+        ;;
+    all|*)
+        echo -e "${CYAN}╔═══════════════════════════════════════╗${NC}"
+        echo -e "${CYAN}║     COMANDRE'S HELP v2026             ║${NC}"
+        echo -e "${CYAN}╚═══════════════════════════════════════╝${NC}"
+        echo ""
+        echo -e "${YELLOW}Comandos disponibles:${NC}"
+        echo "  help ls        → Verbos LSD"
+        echo "  help shortcuts → Atajos de teclado"
+        echo "  help sxhkd    → Atajos BSPWM/SXHKD"
+        echo "  help extract   → extractPorts"
+        echo "  help mkt       → Crear directorio"
+        echo "  help sys       → System info"
+        echo "  help docker    → Alias Docker"
+        echo "  help k8s       → Alias Kubernetes"
+        echo "  help git       → Alias Git"
+        echo ""
+        echo -e "${GREEN}Otros comandos:${NC}"
+        echo "  shortcuts      → Ver todos los atajos"
+        echo "  sysinfo        → Info del sistema"
+        echo "  extractPorts   → Extraer puertos"
+        echo "  myip           → Ver IP pública"
+        echo "  weather        → Ver clima"
+        ;;
+esac

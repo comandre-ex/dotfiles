@@ -1,0 +1,52 @@
+#!/bin/bash
+# ═══════════════════════════════════════════════════════════
+# CONSOLA DE LOGIN / INICIO DE SESIÓN
+# ═══════════════════════════════════════════════════════════
+
+clear
+echo ""
+echo "════════════════════════════════════════════════════════════"
+echo "                  COMANDRE'S SYSTEM 2026                     "
+echo "════════════════════════════════════════════════════════════"
+echo ""
+echo "  🖥️  Entorno: BSPWM (X11)"
+echo "  🐚  Shell: ZSH + Starship"
+echo "  ⌨️  Terminal: Kitty"
+echo ""
+echo "  ═══════════════════════════════════════════════════════"
+echo "  [1] Iniciar X (startx)"
+echo "  [2] Lock screen (slock)"
+echo "  [3] Neofetch"
+echo "  [4] Salir"
+echo "  ═════════════════════════════════════════════════════════════"
+echo ""
+echo -n "  Selecciona una opción [1-4]: "
+read -r option
+
+case "$option" in
+    1)
+        echo ""
+        echo "  ▶ Iniciando BSPWM..."
+        sleep 1
+        exec startx
+        ;;
+    2)
+        slock
+        ;;
+    3)
+        neofetch
+        echo ""
+        echo -n "  Presiona Enter para continuar..."
+        read
+        exec "$0"
+        ;;
+    4)
+        echo "  👋 Saliendo..."
+        exit 0
+        ;;
+    *)
+        echo "  ❌ Opción inválida"
+        sleep 1
+        exec "$0"
+        ;;
+esac
