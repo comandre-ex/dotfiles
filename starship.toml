@@ -1,0 +1,66 @@
+# ═══════════════════════════════════════════════════════════
+# STARSHIP CONFIG - Comandre 2026 (Morado Hex + Espacio corregido)
+# ═══════════════════════════════════════════════════════════
+
+scan_timeout = 100
+
+format = " [](fg:#8839ef bold)[$user](fg:#8839ef bold)[$directory](fg:#8839ef bold)$git_branch$git_status$nodejs$python$rust$golang$docker_context$character"
+add_newline = false
+
+[username]
+style_user = "bold"
+style_root = "red bold"
+format = " [$user]($style)"
+show_always = true
+
+[directory]
+truncation_length = 5
+truncate_to_repo = true
+style = "bold"
+format = " [$path]($style)"
+read_only = " 󰌾"
+read_only_style = "fg:#ef4444 bold"
+
+[git_branch]
+symbol = " 󰘬"
+style = "bold fg:#8839ef"
+format = " [$symbol$branch]($style)"
+
+[git_status]
+style = "bold fg:#8839ef"
+format = " $all_status$ahead_behind"
+
+[nodejs]
+symbol = "󰌞 "
+style = "bold fg:#8839ef"
+format = " [$symbol($version)]($style)"
+
+[rust]
+symbol = "󱘗 "
+style = "bold fg:#8839ef"
+format = " [$symbol($version)]($style)"
+
+[golang]
+symbol = "󰟓 "
+style = "bold fg:#8839ef"
+format = " [$symbol($version)]($style)"
+
+[docker_context]
+symbol = "󰡨 "
+style = "bold fg:#8839ef"
+format = " [$symbol$context]($style)"
+
+[character]
+success_symbol = "[❯](fg:#8839ef bold)"
+error_symbol = "[❯](fg:#ef4444 bold)"
+vicmd_symbol = "[❮](fg:#8839ef bold)"
+format = " $symbol "
+
+[python]
+symbol = "󰌠 "
+style = "bold fg:#8839ef"
+format = " [$symbol($version)]($style)"
+disabled = false
+
+[aws]
+disabled = true

@@ -1,0 +1,105 @@
+#!/usr/bin/env sh
+
+# --- APLICACIONES ---
+# Terminal
+super + Return
+    kitty
+
+# Lanzador de aplicaciones (Rofi)
+super + r
+    ~/.config/rofi/scripts/launcher_t4 
+
+# Explorador de archivos (Thunar)
+super + shift + e 
+    thunar 
+
+# Navegador Firefox
+super + shift + f
+    firefox  
+
+# Herramienta Caido
+super + shift + c 
+    caido 
+
+# Notas Obsidian
+super + shift + o 
+    obsidian   
+
+
+# --- GESTIÓN DE BSPWM ---
+
+# Salir o reiniciar BSPWM
+super + alt + {q,r}  
+    bspc {quit, wm -r}
+
+# Reiniciar sxhkd (recargar esta config)
+super + Escape
+    pkill -USR1 -x sxhkd  
+
+# Cerrar o forzar cierre de ventana
+super + {c,w}
+    bspc node -{c,k} 
+
+
+# --- MOVIMIENTO Y FOCO ---
+
+# Cambiar el foco entre ventanas (estilo Vim)
+super + {h,j,k,l}
+    bspc node -f {west,south,north,east}
+
+# Intercambiar posición de ventanas
+super + shift + {h,j,k,l}
+    bspc node -s {west,south,north,east}
+
+# --- PRESELECCIÓN ---
+
+# Preseleccionar la dirección
+super + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east}
+
+# Cancelar la preselección
+super + ctrl + space
+    bspc node -p cancel
+
+
+# --- REDIMENSIONADO ---
+
+# Expandir una ventana hacia afuera
+super + alt + {h,j,k,l}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# Contraer una ventana hacia adentro
+super + alt + shift + {h,j,k,l}
+    bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# --- ESCRITORIOS ---
+
+# Saltar a un escritorio
+super + {1-9,0}
+    bspc desktop -f '^{1-9,10}' 
+
+# Enviar ventana a un escritorio
+super + shift + {1-9,0}
+    bspc node -d '^{1-9,10}'
+
+
+# --- ESTADOS DE VENTANA ---
+
+# Alternar entre pantalla completa o flotante
+super + {f,s}
+    bspc node -t {fullscreen,floating}
+
+# ---- CAPTTURA DE PANTALLA ---
+super + z 
+   flameshot gui
+
+
+# --- KITTY SPLIT & FLIP ---
+
+# Poner ventana en modo flotante y mover a posición
+super + alt + {k,j,h,l}
+    bspc node -t floating && bspc node -e {move -100 0,move 100 0,move 0 -100,move 0 100}
+
+# Rotar layout del escritorio
+super + shift + b
+    bspc desktop -r         
